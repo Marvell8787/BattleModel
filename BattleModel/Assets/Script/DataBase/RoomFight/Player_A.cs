@@ -6,10 +6,12 @@ using UnityEngine.UI;
 static class Player_A
 {
     public static string[] Deck_Play = new string[9] { "A", "A", "A", "B", "B", "B", "C", "C", "C" };  //原有 A:剪刀 B:石頭 C:布
-    public static string[] Deck_Fight = new string[9] { "A", "A", "A", "B", "B", "B", "C", "C", "C" }; //對戰
+    public static string[] Deck_Fight = new string[9] { "A", "A", "A", "B", "B", "B", "C", "C", "C" }; //對戰 A>C C>B B>A
     public static string[] Deck_Use = new string[9] { "E", "E", "E", "E", "E", "E", "E", "E", "E" }; //已使用
 
     public static string[] Hand = new string[3]; //手牌
+
+    public static int Life=10;
 
     public static int Hand_Num = 3;   // 手牌
     public static int Hand_Choose = 3; //選擇 
@@ -18,10 +20,26 @@ static class Player_A
 
     public static int Deck_Num = 6; //牌庫
     public static int Deck_Draw = 0; //已抽取牌數
-    public static int Card_Use_Num = 0; //已使用的牌
+
+    public static int Win = 0;
+    public static int Lose = 0;
+    public static int Tie = 0;
+
+
+    public static string Show_Card;
 
     public static void Init()
     {
+        Life = 10;
+        Hand_Num = 3;
+        Hand_Choose = 3;
+        Graveyard = 0;
+        Deck_Num = 6;
+        Deck_Draw = 0;
+        Win = 0;
+        Lose = 0;
+        Tie = 0;
+
         Text T_Temp;
 
         T_Temp = GameObject.Find("Text_Deck_A_Num").GetComponent<Text>();
@@ -33,7 +51,7 @@ static class Player_A
         I_Temp.sprite = Resources.Load("Image/f1", typeof(Sprite)) as Sprite;
         */
 
-        Deck_Fight=RandomSortDeck(Deck_Play,9);
+        Deck_Fight = RandomSortDeck(Deck_Play,9);
 
         for(int i = 0; i < 3; i++)
         {
@@ -42,9 +60,52 @@ static class Player_A
         }
         Update_Hand();
     }
-    public static void Refresh()
+    public static void Refresh_Life()
     {
+        Text T_Temp;
+        T_Temp = GameObject.Find("Text_Life_A_Num").GetComponent<Text>();
+        T_Temp.text = Life.ToString();
+    }
+    public static void Update_Deck()
+    {
+        Image I_Temp;
 
+        I_Temp = GameObject.Find("Image_Show_A").GetComponent<Image>();
+        I_Temp.sprite = Resources.Load("Image/Show", typeof(Sprite)) as Sprite;
+
+
+        I_Temp = GameObject.Find("Image_Hand_A_0" + (Hand_Choose + 1).ToString()).GetComponent<Image>();
+
+        Hand[Hand_Choose] = Deck_Fight[Deck_Draw];
+        Debug.Log(Deck_Draw);
+        switch (Hand[Hand_Choose])
+        {
+            case "A":
+                I_Temp.sprite = Resources.Load("Image/f1", typeof(Sprite)) as Sprite;
+                break;
+            case "B":
+                I_Temp.sprite = Resources.Load("Image/f2", typeof(Sprite)) as Sprite;
+                break;
+            case "C":
+                I_Temp.sprite = Resources.Load("Image/f3", typeof(Sprite)) as Sprite;
+                break;
+            default:
+                break;
+        }
+
+        Deck_Num--;
+        Deck_Draw++;
+        Graveyard++;
+        Hand_Choose = 3;
+
+        Text T_Temp;
+
+        T_Temp = GameObject.Find("Text_Deck_A_Num").GetComponent<Text>();
+        T_Temp.text = Deck_Num.ToString();
+        T_Temp = GameObject.Find("Text_Graveyard_A_Num").GetComponent<Text>();
+        T_Temp.text = Graveyard.ToString();
+
+        Update_Hand();
     }
 
     public static void Update_Hand()
@@ -72,6 +133,31 @@ static class Player_A
             }
         }
 
+    }
+
+    public static void Play() //出牌
+    {
+        Image I_Temp;
+        I_Temp = GameObject.Find("Image_Hand_A_0" + (Hand_Choose + 1).ToString()).GetComponent<Image>();
+        I_Temp.sprite = Resources.Load("Image/hand", typeof(Sprite)) as Sprite;
+        I_Temp.color = new Color32(255, 255, 255, 255);
+        I_Temp = GameObject.Find("Image_Show_A").GetComponent<Image>();
+
+        switch (Hand[Hand_Choose])
+        {
+            case "A":
+                I_Temp.sprite = Resources.Load("Image/f1", typeof(Sprite)) as Sprite;
+                break;
+            case "B":
+                I_Temp.sprite = Resources.Load("Image/f2", typeof(Sprite)) as Sprite;
+                break;
+            case "C":
+                I_Temp.sprite = Resources.Load("Image/f3", typeof(Sprite)) as Sprite;
+                break;
+            default:
+                break;
+        }
+        Show_Card =Hand[Hand_Choose];
     }
 
     public static int[] GetRandomSequence(int total)
