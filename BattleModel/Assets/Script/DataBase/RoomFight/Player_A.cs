@@ -77,7 +77,6 @@ static class Player_A
         I_Temp = GameObject.Find("Image_Hand_A_0" + (Hand_Choose + 1).ToString()).GetComponent<Image>();
 
         Hand[Hand_Choose] = Deck_Fight[Deck_Draw];
-        Debug.Log(Deck_Draw);
         switch (Hand[Hand_Choose])
         {
             case "A":
