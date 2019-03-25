@@ -54,8 +54,7 @@ static class Player_B
             Deck_Draw++;
         }
         // Debug用
-        Update_Hand(); 
-
+        //Show_Hand();
     }
     public static void Refresh_Life()
     {
@@ -72,23 +71,9 @@ static class Player_B
 
 
         I_Temp = GameObject.Find("Image_Hand_B_0" + (Hand_Choose + 1).ToString()).GetComponent<Image>();
-
+        I_Temp.sprite = Resources.Load("Image/cover", typeof(Sprite)) as Sprite;
         Hand[Hand_Choose] = Deck_Fight[Deck_Draw];
 
-        switch (Hand[Hand_Choose])
-        {
-            case "A":
-                I_Temp.sprite = Resources.Load("Image/f1", typeof(Sprite)) as Sprite;
-                break;
-            case "B":
-                I_Temp.sprite = Resources.Load("Image/f2", typeof(Sprite)) as Sprite;
-                break;
-            case "C":
-                I_Temp.sprite = Resources.Load("Image/f3", typeof(Sprite)) as Sprite;
-                break;
-            default:
-                break;
-        }
 
         Deck_Num--;
         Deck_Draw++;
@@ -103,10 +88,10 @@ static class Player_B
         T_Temp.text = Graveyard.ToString();
 
 
-        Update_Hand();
+        //Show_Hand();
     }
 
-    public static void Update_Hand()
+    public static void Show_Hand()
     {
         //Debug用
                 Image I_Temp;
@@ -142,6 +127,8 @@ static class Player_B
         I_Temp.sprite = Resources.Load("Image/hand", typeof(Sprite)) as Sprite;
 
         I_Temp = GameObject.Find("Image_Show_B").GetComponent<Image>();
+
+        
         switch (Hand[Hand_Choose])
         {
             case "A":
@@ -156,6 +143,7 @@ static class Player_B
             default:
                 break;
         }
+
         Show_Card = Hand[Hand_Choose];
     }
 

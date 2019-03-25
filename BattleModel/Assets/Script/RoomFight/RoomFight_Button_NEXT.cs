@@ -25,11 +25,15 @@ public class RoomFight_Button_NEXT : MonoBehaviour {
         if (Player_A.Life == 0)
         {
             Debug.Log("You Lose!");
+            Player_A.Result = "You Lose!";
+            Player_Record.Lose++;
             Application.LoadLevel("Settlement");
         }
         else if (Player_B.Life == 0)
         {
             Debug.Log("You Win!");
+            Player_A.Result = "You Win!";
+            Player_Record.Win++;
             Application.LoadLevel("Settlement");
         }
         else if (Player_A.Deck_Num == 0 && Player_B.Deck_Num == 0)
@@ -37,16 +41,22 @@ public class RoomFight_Button_NEXT : MonoBehaviour {
             if (Player_A.Life > Player_B.Life)
             {
                 Debug.Log("You Win!");
+                Player_A.Result = "You Win!";
+                Player_Record.Win++;
                 Application.LoadLevel("Settlement");
             }
             else if (Player_B.Life > Player_A.Life)
             {
                 Debug.Log("You Lose!");
+                Player_A.Result = "You Lose!";
+                Player_Record.Lose++;
                 Application.LoadLevel("Settlement");
             }
             else if (Player_B.Life == Player_A.Life)
             {
                 Debug.Log("It's Tie!");
+                Player_A.Result = "It's Tie!";
+                Player_Record.Tie++;
                 Application.LoadLevel("Settlement");
             }
         }

@@ -25,6 +25,7 @@ static class Player_A
     public static int Lose = 0;
     public static int Tie = 0;
 
+    public static string Result = "";
 
     public static string Show_Card;
 
@@ -39,6 +40,7 @@ static class Player_A
         Win = 0;
         Lose = 0;
         Tie = 0;
+        Result = "";
 
         Text T_Temp;
 
